@@ -1,17 +1,12 @@
-const jsdom = require('jsdom');
-const express = require('express');
-const cors = require('cors');
-const compression = require('compression');
-const { getText, getImage } = require('./utils');
+import compression from 'compression';
+import cors from 'cors';
+import express from 'express';
+import jsdom from 'jsdom';
+import { getText, getImage } from './utils';
 
 const app = express();
 
 app.use(cors());
-// app.use((_req, res, next) => {
-//   res.set('Cache-Control', 'public, max-age=86400');
-//   next();
-// });
-
 app.use(compression());
 
 const { JSDOM } = jsdom;
@@ -23,11 +18,11 @@ const options = {
 };
 
 app.get('/dog/:index', (req, res) => {
-    const { index } = req.params;
+    const index = Number(req.params.index);
     const cardsOnPage = 9;
     const page = Math.floor(index / cardsOnPage);
-    const cardIndex = index % cardsOnPage; 
-    
+    const cardIndex = index % cardsOnPage;
+
     JSDOM.fromURL(`${dogsUrl}?page=${page}`, options).then((dom) => {
         const doc = dom.window.document;
         const cards = doc.querySelectorAll('.card.box');
@@ -36,11 +31,12 @@ app.get('/dog/:index', (req, res) => {
         const gender = getText(card, '.title .gender');
         const description = getText(card, '.h4');
         const img = getImage(card, '.img-wrap img');
-        
+
         res.json({ name, gender, description, img });
     });
 });
 
-const listener = app.listen(process.env.PORT || 3000, () => {
-    console.log('Your app is listening on port ' + listener.address().port);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log('Your app is listening on port ' + port);
 });
