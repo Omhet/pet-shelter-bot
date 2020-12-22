@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsdom": "^16.4.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 4
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
