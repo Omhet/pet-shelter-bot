@@ -7,7 +7,7 @@ axios.defaults.baseURL = config.SHELTER_API;
 export const getTotalDogs = async () => {
     const { data } = await axios.request<TotalNumber>({ url: `dogs/number` });
     return data?.total ?? 0;
-}
+};
 
 export const getRandomDog = async () => {
     const total = await getTotalDogs();
@@ -19,7 +19,7 @@ export const getRandomDog = async () => {
 export const getTotalCats = async () => {
     const { data } = await axios.request<TotalNumber>({ url: `cats/number` });
     return data?.total ?? 0;
-}
+};
 
 export const getRandomCat = async () => {
     const total = await getTotalCats();
@@ -28,5 +28,10 @@ export const getRandomCat = async () => {
     return data;
 };
 
-export const getCatCaption = ({ name, gender, description }: Animal) => `🐱 ${name}, ${gender}\n\n${description}`
-export const getDogCaption = ({ name, gender, description }: Animal) => `🐶 ${name}, ${gender}\n\n${description}`
+export const getAnimalCaption = ({ name, gender, description, link }: Animal, linkText: string) =>
+    `${name}, ${gender}\n\n${description}\n\n<a href="${link}">${linkText}</a>`;
+
+export const getCatCaption = (animal: Animal) =>
+    `🐱 ${getAnimalCaption(animal, 'Забрать котика')}`;
+export const getDogCaption = (animal: Animal) =>
+    `🐶 ${getAnimalCaption(animal, 'Забрать песика')}`;

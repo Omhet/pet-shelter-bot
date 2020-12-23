@@ -3,6 +3,7 @@ export interface Animal {
     description: string;
     gender: string;
     img: string;
+    link: string;
 }
 
 export interface TotalNumber {
