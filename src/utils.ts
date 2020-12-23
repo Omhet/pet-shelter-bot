@@ -27,3 +27,6 @@ export const getRandomCat = async () => {
     const { data } = await axios.request<Animal>({ url: `cats/${index}` });
     return data;
 };
+
+export const getCatCaption = ({ name, gender, description }: Animal) => `🐱 ${name}, ${gender}\n\n${description}`
+export const getDogCaption = ({ name, gender, description }: Animal) => `🐶 ${name}, ${gender}\n\n${description}`
