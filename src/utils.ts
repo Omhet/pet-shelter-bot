@@ -8,11 +8,22 @@ export const getTotalDogs = async () => {
     const { data } = await axios.request<TotalNumber>({ url: `dogs/number` });
     return data?.total ?? 0;
 }
+
 export const getRandomDog = async () => {
     const total = await getTotalDogs();
-    console.log(total);
-    
     const index = Math.floor(Math.random() * total);
     const { data } = await axios.request<Animal>({ url: `dogs/${index}` });
+    return data;
+};
+
+export const getTotalCats = async () => {
+    const { data } = await axios.request<TotalNumber>({ url: `cats/number` });
+    return data?.total ?? 0;
+}
+
+export const getRandomCat = async () => {
+    const total = await getTotalCats();
+    const index = Math.floor(Math.random() * total);
+    const { data } = await axios.request<Animal>({ url: `cats/${index}` });
     return data;
 };
