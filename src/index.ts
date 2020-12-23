@@ -3,12 +3,12 @@ import { getRandomDog } from './utils';
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 bot.start((ctx) => {
-    ctx.reply('Привет!')
+    ctx.reply('Привет!');
 });
 bot.hears('С', async (ctx) => {
     const { img, name, gender, description } = await getRandomDog();
-    ctx.replyWithPhoto(img);
-    ctx.reply(`${name}, ${gender}\n${description}`);
+    const caption = `🐶 ${name}, ${gender}\n\n${description}`;
+    ctx.replyWithPhoto(img, { caption });
 });
 bot.launch();
 console.log('Bot started');
