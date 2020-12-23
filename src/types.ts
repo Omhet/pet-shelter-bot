@@ -4,3 +4,7 @@ export interface Animal {
     gender: string;
     img: string;
 }
+
+export interface TotalNumber {
+    total: number;
+}
