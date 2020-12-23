@@ -1,7 +1,10 @@
-export const getText = (element: Element, selector: string) => {
-    return element.querySelector(selector)?.textContent?.trim();
-}
+import axios from 'axios';
+import { Animal } from './types';
 
-export const getImage = (element: Element, selector: string) => {
-    return element.querySelector(selector)?.getAttribute('src');
-}
+axios.defaults.baseURL = process.env.SHELTER_API;
+
+export const getRandomDog = async () => {
+    const { data } = await axios.request<Animal>({ url: 'dog/0' });
+    console.log(data);
+    return data;
+};
