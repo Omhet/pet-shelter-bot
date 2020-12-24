@@ -1,10 +1,10 @@
 import { Telegram } from "telegraf";
 import config from "./config";
 import { extraPhotoOptions } from "./constants";
-import { getRandomCat, getCatCaption } from "./utils";
+import { Animal } from "./types";
+import { getRandomCat, getCatCaption, getRandomDog } from "./utils";
 
-const sendAnimalToMainChat = async () => {
-    const animal = await getRandomCat();
+const sendAnimalToMainChat = async (animal: Animal) => {
     const caption = getCatCaption(animal);
 
     console.log(`Sent animal to main chat. Link: ${animal.link}`);
@@ -13,4 +13,9 @@ const sendAnimalToMainChat = async () => {
     telegram.sendPhoto(config.TELEGRAM_MAIN_CHAT!, animal.img, { caption, ...extraPhotoOptions });
 };
 
-sendAnimalToMainChat();
+const sendAnimalsToMainChat = async () => {
+    sendAnimalToMainChat(await getRandomCat());
+    sendAnimalToMainChat(await getRandomDog());
+}
+
+sendAnimalsToMainChat();
