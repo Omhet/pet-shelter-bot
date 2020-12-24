@@ -1,8 +1,9 @@
 import Telegraf from "telegraf";
+import config from "./config";
 import { extraPhotoOptions } from "./constants";
 import { getRandomDog, getDogCaption, getRandomCat, getCatCaption } from "./utils";
 
-export const bot = new Telegraf(process.env.BOT_TOKEN!);
+export const bot = new Telegraf(config.BOT_TOKEN!);
 bot.launch();
 console.log('Bot started');
 

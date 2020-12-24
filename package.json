@@ -1,12 +1,11 @@
 {
     "scripts": {
-        "start:bot": "tsc && node --es-module-specifier-resolution=node ./dist/bot",
-        "send": "tsc && node --es-module-specifier-resolution=node ./dist/sendToMainChat"
+        "start:bot": "tsc && node ./dist/bot",
+        "send": "tsc && node ./dist/sendToMainChat"
     },
     "engines": {
         "node": ">=14.0"
     },
-    "type": "module",
     "dependencies": {
         "axios": "^0.21.1",
         "dotenv": "^8.2.0",
