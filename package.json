@@ -1,6 +1,5 @@
 {
     "scripts": {
-        "start": "tsc && node --es-module-specifier-resolution=node ./dist",
         "start:bot": "tsc && node --es-module-specifier-resolution=node ./dist/bot",
         "send": "tsc && node --es-module-specifier-resolution=node ./dist/sendToMainChat"
     },
