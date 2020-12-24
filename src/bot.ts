@@ -21,11 +21,9 @@ bot.start((ctx) => {
 });
 bot.hears(AnimalKind.Dog, async (ctx) => {
     const animal = await getRandomDog();
-    const caption = getDogCaption(animal);
-    replyWithAnimal(ctx, animal, caption);
+    replyWithAnimal(ctx, animal);
 });
 bot.hears(AnimalKind.Cat, async (ctx) => {
     const animal = await getRandomCat();
-    const caption = getCatCaption(animal);
-    replyWithAnimal(ctx, animal, caption);
+    replyWithAnimal(ctx, animal);
 });

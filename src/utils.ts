@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TelegrafContext } from 'telegraf/typings/context';
 import config from './config';
 import { extraPhotoOptions } from './constants';
-import { Animal, TotalNumber } from './types';
+import { Animal, AnimalResponse, TotalNumber } from './types';
 
 axios.defaults.baseURL = config.SHELTER_API;
 
@@ -10,35 +10,42 @@ export const getTotalDogs = async () => {
     const { data } = await axios.request<TotalNumber>({ url: `dogs/number` });
     return data?.total ?? 0;
 };
-
-export const getRandomDog = async () => {
+export const getRandomDog = async (): Promise<Animal> => {
     const total = await getTotalDogs();
     const index = Math.floor(Math.random() * total);
-    const { data } = await axios.request<Animal>({ url: `dogs/${index}` });
-    return data;
+    const { data: animal } = await axios.request<AnimalResponse>({ url: `dogs/${index}` });
+    const caption = getDogCaption(animal);
+    
+    return {
+        ...animal,
+        caption
+    };
 };
 
 export const getTotalCats = async () => {
     const { data } = await axios.request<TotalNumber>({ url: `cats/number` });
     return data?.total ?? 0;
 };
-
-export const getRandomCat = async () => {
+export const getRandomCat = async (): Promise<Animal> => {
     const total = await getTotalCats();
     const index = Math.floor(Math.random() * total);
-    const { data } = await axios.request<Animal>({ url: `cats/${index}` });
-    return data;
+    const { data: animal } = await axios.request<AnimalResponse>({ url: `cats/${index}` });
+    const caption = getCatCaption(animal);
+
+    return {
+        ...animal,
+        caption
+    };
 };
 
-export const getAnimalCaption = ({ name, gender, description, link }: Animal, linkText: string) =>
+export const getAnimalCaption = ({ name, gender, description, link }: AnimalResponse, linkText: string) =>
     `${name}, ${gender}\n\n${description}\n\n<a href="${link}">${linkText}</a>`;
-
-export const getCatCaption = (animal: Animal) =>
+export const getCatCaption = (animal: AnimalResponse) =>
     `🐱 ${getAnimalCaption(animal, 'Забрать котика')}`;
-export const getDogCaption = (animal: Animal) =>
+export const getDogCaption = (animal: AnimalResponse) =>
     `🐶 ${getAnimalCaption(animal, 'Забрать песика')}`;
 
 
-export const replyWithAnimal = (ctx: TelegrafContext, animal: Animal, caption: string) => {
-    ctx.replyWithPhoto(animal.img, { caption, ...extraPhotoOptions });
+export const replyWithAnimal = (ctx: TelegrafContext, animal: Animal) => {
+    ctx.replyWithPhoto(animal.img, { caption: animal.caption, ...extraPhotoOptions });
 }
