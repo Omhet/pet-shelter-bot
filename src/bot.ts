@@ -5,6 +5,7 @@ import { getRandomDog, getDogCaption, getRandomCat, getCatCaption } from "./util
 
 export const bot = new Telegraf(config.BOT_TOKEN!);
 bot.launch();
+bot.startWebhook('/hook', null, Number(process.env.PORT) || 5000)
 console.log('Bot started');
 
 bot.start((ctx) => {
