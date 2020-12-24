@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { TelegrafContext } from 'telegraf/typings/context';
 import config from './config';
+import { extraPhotoOptions } from './constants';
 import { Animal, TotalNumber } from './types';
 
 axios.defaults.baseURL = config.SHELTER_API;
@@ -35,3 +37,8 @@ export const getCatCaption = (animal: Animal) =>
     `🐱 ${getAnimalCaption(animal, 'Забрать котика')}`;
 export const getDogCaption = (animal: Animal) =>
     `🐶 ${getAnimalCaption(animal, 'Забрать песика')}`;
+
+
+export const replyWithAnimal = (ctx: TelegrafContext, animal: Animal, caption: string) => {
+    ctx.replyWithPhoto(animal.img, { caption, ...extraPhotoOptions });
+}

@@ -1,23 +1,31 @@
-import Telegraf from "telegraf";
-import config from "./config";
-import { extraPhotoOptions } from "./constants";
-import { getRandomDog, getDogCaption, getRandomCat, getCatCaption } from "./utils";
+import Telegraf from 'telegraf';
+import { Keyboard, Key } from 'telegram-keyboard';
+import config from './config';
+import { AnimalKind, extraPhotoOptions } from './constants';
+import {
+    getRandomDog,
+    getDogCaption,
+    getRandomCat,
+    getCatCaption,
+    replyWithAnimal,
+} from './utils';
 
 export const bot = new Telegraf(config.BOT_TOKEN!);
 bot.launch();
-bot.startWebhook('/hook', null, Number(process.env.PORT) || 5000)
+bot.startWebhook('/hook', null, Number(process.env.PORT) || 5000);
 console.log('Bot started');
 
 bot.start((ctx) => {
-    ctx.reply('Привет!');
+    const keyboard = Keyboard.make([AnimalKind.Cat, AnimalKind.Dog])
+    ctx.reply('Привет!\nВыбери кого ты хочешь приютить?', keyboard.reply())
 });
-bot.hears('С', async (ctx) => {
+bot.hears(AnimalKind.Dog, async (ctx) => {
     const animal = await getRandomDog();
     const caption = getDogCaption(animal);
-    ctx.replyWithPhoto(animal.img, { caption, ...extraPhotoOptions });
+    replyWithAnimal(ctx, animal, caption);
 });
-bot.hears('К', async (ctx) => {
+bot.hears(AnimalKind.Cat, async (ctx) => {
     const animal = await getRandomCat();
     const caption = getCatCaption(animal);
-    ctx.replyWithPhoto(animal.img, { caption, ...extraPhotoOptions });
+    replyWithAnimal(ctx, animal, caption);
 });
