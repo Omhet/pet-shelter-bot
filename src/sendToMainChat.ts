@@ -9,6 +9,8 @@ const sendAnimalToMainChat = async (bot: Telegraf<TelegrafContext>) => {
     const animal = await getRandomCat();
     const caption = getCatCaption(animal);
     
+    console.log(`Sent animal to main chat. Link: ${animal.link}`);
+    
     bot.telegram.sendPhoto(config.TELEGRAM_MAIN_CHAT!, animal.img, { caption, ...extraPhotoOptions });
 };
 
